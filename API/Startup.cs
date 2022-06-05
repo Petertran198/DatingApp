@@ -30,7 +30,8 @@ namespace API
         {
             //Add the db context u created and connect it to db provider to be used
             services.AddDbContext<DataContext>(options=>{
-                options.UseSqlite("Some Connection String");
+                //Set up sql provider to connect to this db using the connection we added in appsettings
+                options.UseSqlite(this.Configuration.GetConnectionString("DefaultConnection"));
             });
             services.AddControllers();
             services.AddSwaggerGen(c =>
