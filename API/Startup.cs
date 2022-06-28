@@ -38,6 +38,9 @@ namespace API
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
             });
+
+            //Need to enable cors to communicate with client app
+            services.AddCors();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -53,7 +56,8 @@ namespace API
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
+            //App.UseCors must be placed below app.UseRouting and before app.UseAuthorization and app.UseEndPoints
+            app.UseCors( policy => policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:4200") );
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
