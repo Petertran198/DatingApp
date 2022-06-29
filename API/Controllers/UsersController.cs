@@ -18,7 +18,7 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        //Task is a class that handle Async request U got to cast ur return value to a Task  
+        //Task is a class that handle Async request U got to cast ur return value to a Task if u use async code   
         public async Task<ActionResult<IEnumerable<AppUser>>> GetUsers()
         {
            return await _context.Users.ToListAsync();
