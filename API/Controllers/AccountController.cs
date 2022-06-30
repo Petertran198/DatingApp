@@ -46,6 +46,30 @@ namespace API.Controllers
            return user;
         }
 
+        [HttpPost("login")]
+        public async Task<ActionResult<AppUser>> Login(LoginDto loginDto){
+            var user = await _context.Users.SingleOrDefaultAsync((user)=> user.UserName == loginDto.UserName );
+
+            if(user == null){
+                return Unauthorized("Invalid Username");
+            }
+            //use the Password Salt we created when registering a user
+            //This salt will be use to decrypt the hash as a secondary layer of protection if the Hash is ever compromised  
+            //After that the hash will be decrypted 
+            using var hmac = new HMACSHA512(user.PasswordSalt);
+
+            //If the Password using the same Password Salt(aka key) returns the same Hash as the database password 
+            //the password matches
+            var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(loginDto.Password));
+
+            for(int i = 0; i <  computedHash.Length;  i++){
+                if(computedHash[i] != user.PasswordHash[i]) {
+                    return Unauthorized("Invalid Password");
+                }
+            }
+            return user;
+        }
+
         private async Task<bool> isUserNameExist(string username){
             return await _context.Users.AnyAsync((user)=> user.UserName == username.ToLower());
         }
