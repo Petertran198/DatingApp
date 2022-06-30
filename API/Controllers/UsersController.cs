@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using API.Data;
 using API.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 namespace API.Controllers
@@ -17,6 +18,7 @@ namespace API.Controllers
             _context = context;
         }
 
+        [AllowAnonymous]
         [HttpGet]
         //Task is a class that handle Async request U got to cast ur return value to a Task if u use async code   
         public async Task<ActionResult<IEnumerable<AppUser>>> GetUsers()
@@ -24,6 +26,7 @@ namespace API.Controllers
            return await _context.Users.ToListAsync();
         }
 
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<AppUser>> GetUser(int id){
                 return await _context.Users.FindAsync(id);
