@@ -13,6 +13,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Microsoft.EntityFrameworkCore;
+using API.Interfaces;
+using API.Services;
 
 namespace API
 {
@@ -28,6 +30,9 @@ namespace API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //Add the service to dependency injection to use in API
+            services.AddScoped<TokenService>();
+
             //Add the db context u created and connect it to db provider to be used
             services.AddDbContext<DataContext>(options=>{
                 //Set up sql provider to connect to this db using the connection we added in appsettings
