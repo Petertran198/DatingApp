@@ -9,13 +9,35 @@
                 <a class="nav-link" href="#">Link</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link disabled">Disabled</a>
+                <a class="nav-link" (click)="logout()">logout</a>
             </li>
         </ul>
-        <form class="d-flex" role="search">
-            <input class="form-control mr-sm-2" type="search" placeholder="UserName" aria-label="Search">
-            <input class="form-control mr-sm-2" type="search" placeholder="Password" aria-label="Search">
-            <button class="btn btn-outline-success" type="submit">Login</button>
-        </form>
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-8">
+                <div class="dropdown mx-2" *ngIf="this.isLoggedIn">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                        data-toggle="dropdown" aria-expanded="false">
+                        Profile
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="#">Edit Profile</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#" (click)="this.logout()">Log Out</a>
+                    </div>
+                </div>
+                <form *ngIf="!this.isLoggedIn" class="d-flex" role="search" #loginForm="ngForm" (ngSubmit)="login()">
+                    <input class="form-control mr-sm-2" type="search" placeholder="UserName" name="username"
+                        [(ngModel)]="model.username" aria-label="Search">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Password" aria-label="Search"
+                        name="password" [(ngModel)]="model.password">
+                    <button class="btn btn-outline-success" type="submit">Login</button>
+                </form>
+            </div>
+        </div>
+
+
+
+
     </div>
 </nav>
