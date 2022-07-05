@@ -9,18 +9,15 @@ import $ from 'jquery';
 })
 export class NavComponent implements OnInit {
   model: any = {};
-  isLoggedIn: Boolean;
-  constructor(private accountService: AccountService) {}
+  // Made this service public to be able to use in .html template
+  constructor(public accountService: AccountService) {}
 
-  ngOnInit(): void {
-    this.getCurrentUser();
-  }
+  ngOnInit(): void {}
 
   login() {
     this.accountService.login(this.model).subscribe(
       (accountInfo) => {
         console.log(accountInfo);
-        this.isLoggedIn = true;
       },
       (error) => {
         console.log(error);
@@ -30,16 +27,11 @@ export class NavComponent implements OnInit {
 
   logout() {
     this.accountService.logOut();
-    this.isLoggedIn = false;
   }
 
   getCurrentUser() {
     this.accountService.currentUser$.subscribe(
-      (user) => {
-        //If there is a user set to true if not set to false.
-        //!! just converts it to a boolean
-        this.isLoggedIn = !!user;
-      },
+      (user) => {},
       (error) => {
         console.log(error);
       }
