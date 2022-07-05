@@ -12,7 +12,9 @@ export class NavComponent implements OnInit {
   isLoggedIn: Boolean;
   constructor(private accountService: AccountService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.getCurrentUser();
+  }
 
   login() {
     this.accountService.login(this.model).subscribe(
@@ -27,6 +29,20 @@ export class NavComponent implements OnInit {
   }
 
   logout() {
+    this.accountService.logOut();
     this.isLoggedIn = false;
+  }
+
+  getCurrentUser() {
+    this.accountService.currentUser$.subscribe(
+      (user) => {
+        //If there is a user set to true if not set to false.
+        //!! just converts it to a boolean
+        this.isLoggedIn = !!user;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   }
 }

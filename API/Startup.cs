@@ -18,6 +18,7 @@ using API.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using API.Extensions;
 
 namespace API
 {
@@ -33,14 +34,7 @@ namespace API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //Add the service to dependency injection to use in API
-            services.AddScoped<TokenService>();
-
-            //Add the db context u created and connect it to db provider to be used
-            services.AddDbContext<DataContext>(options=>{
-                //Set up sql provider to connect to this db using the connection we added in appsettings
-                options.UseSqlite(this.Configuration.GetConnectionString("DefaultConnection"));
-            });
+            services.AddApplicationServices(this.Configuration);
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -49,16 +43,7 @@ namespace API
 
             //Need to enable cors to communicate with client app
             services.AddCors();
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            .AddJwtBearer(options => {
-                options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
-                {
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["TokenKey"])),
-                    ValidateIssuer = false,
-                    ValidateAudience = false
-                };
-            });
+            services.AddIdentityServices(this.Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
