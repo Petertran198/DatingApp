@@ -52,6 +52,24 @@ namespace API.Controllers
             return result;
         }
 
+        [HttpPost("login")]
+        public async Task<IActionResult> Login(LoginDto loginDto){
+            var user = await this._context.Users.FirstOrDefaultAsync(x => x.UserName == loginDto.UserName);
+
+            if(user == null) return Unauthorized("No users found");
+
+            // The passwordSalt is the secret key to decode 
+            using var hmac = new HMACSHA512(user.PasswordSalt);
+            // Used the algorithm from the secret key of RegisterUserDTO.password to make a hash for the logingDto.password 
+            var computeHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(loginDto.Password));
+
+            for(var i = 0; i < computeHash.Length; i++) {
+                if(computeHash[i] != user.PasswordHash[i]){
+                    return Unauthorized("Invalid Password");
+                }
+            }
+            return Ok(user);
+        }
 
         public async Task<bool> DoesUserExists(string username){
          return   await this._context.Users.AnyAsync(u => u.UserName == username.ToLower());
