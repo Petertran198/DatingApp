@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using API.Data;
 using API.DTO;
 using API.Entities;
+using API.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,8 +16,10 @@ namespace API.Controllers
     public class AccountController: BaseApiController
     {
         private readonly DataContext _context;
-        public AccountController(DataContext context)
+        private readonly ITokenService tokenService;
+        public AccountController(DataContext context, ITokenService tokenService)
         {
+            this.tokenService = tokenService;
             this._context = context;
 
         }
@@ -33,7 +36,7 @@ namespace API.Controllers
             //Got to use using because HMACSHA512 is part of the IDisposable interface 
             using var hmac = new HMACSHA512();
 
-            var user = new AppUser
+            var user = new HashedUser
             {
                 UserName = registerUser.Username.ToLower(),
                 PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerUser.Password)),
@@ -43,17 +46,25 @@ namespace API.Controllers
             this._context.Users.Add(user);
             await this._context.SaveChangesAsync();
 
-            result= Ok(registerUser);
+
+            //return user with jwt token signature
+            result= Ok(
+                new UserDto {
+                Username = user.UserName,
+                Token = this.tokenService.CreateToken(user)
+                }
+            );
 
             } catch(System.Exception ex){
 
                 result = BadRequest(ex.Message);
             }
+            
             return result;
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login(LoginDto loginDto){
+        public async Task<IActionResult> Login(LoginUserDto loginDto){
             var user = await this._context.Users.FirstOrDefaultAsync(x => x.UserName == loginDto.UserName);
 
             if(user == null) return Unauthorized("No users found");
@@ -68,7 +79,14 @@ namespace API.Controllers
                     return Unauthorized("Invalid Password");
                 }
             }
-            return Ok(user);
+            
+            //return user with jwt token signature
+            return Ok(
+                new UserDto {
+                Username = user.UserName,
+                Token = this.tokenService.CreateToken(user)
+                }
+            );
         }
 
         public async Task<bool> DoesUserExists(string username){
