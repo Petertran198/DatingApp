@@ -1,4 +1,5 @@
-﻿using API.Data;
+﻿using System.ComponentModel;
+using API.Data;
 using API.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -16,6 +17,7 @@ public class UsersController : BaseApiController
         _context = context;
     }
 
+    [AllowAnonymous]
     [HttpGet]
     public async Task<IActionResult> GetUsers()
     {
