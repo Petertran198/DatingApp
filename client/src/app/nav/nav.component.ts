@@ -12,11 +12,17 @@ export class NavComponent implements OnInit {
     Username: '',
     Password: '',
   };
-
+  isLoggedIn: boolean = false;
   constructor(private accountService: AccountService) {}
+
   ngOnInit(): void {}
 
   login() {
     this.accountService.login(this.loginUser);
+    this.isLoggedIn = true;
+  }
+
+  logout() {
+    this.isLoggedIn = false;
   }
 }
