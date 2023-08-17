@@ -17,7 +17,7 @@
       role="search"
       #loginForm="ngForm"
       (ngSubmit)="login()"
-      *ngIf="!isLoggedIn"
+      *ngIf="!(this.accountService.currentUser$ | async)"
     >
       <input
         name="username"
@@ -35,10 +35,10 @@
         placeholder="Password"
         aria-label="Search"
       />
-      <button class="btn btn-outline-success" type="submit">Search</button>
+      <button class="btn btn-outline-success" type="submit">Submit</button>
     </form>
 
-    <ul class="navbar-nav mx-2" *ngIf="isLoggedIn">
+    <ul class="navbar-nav mx-2" *ngIf="this.accountService.currentUser$">
       <li class="nav-item dropdown">
         <button
           class="btn btn-dark dropdown-toggle"
