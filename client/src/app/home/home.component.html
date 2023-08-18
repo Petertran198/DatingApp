@@ -4,7 +4,7 @@
     <p class="lead">Come on in an find your match</p>
     <div class="text-center">
       <button
-        (click)="registerToggle(true)"
+        (click)="toggleRegister(true)"
         class="btn btn-primary btn-lg me-2"
       >
         Register
@@ -16,8 +16,7 @@
     <div class="row d-flex justify-content-center">
       <div class="col-4">
         <app-register
-          [users]="users"
-          (cancelRegister)="this.registerToggle($event)"
+          (cancelRegister)="this.toggleRegister($event)"
         ></app-register>
       </div>
     </div>

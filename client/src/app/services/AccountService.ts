@@ -1,8 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { UserDto } from '../DTO/UserDto';
 import { LoginUser } from '../DTO/LoginUserDto';
-import { BehaviorSubject, map } from 'rxjs';
+import { BehaviorSubject, catchError, map, of, throwError } from 'rxjs';
 import { RegisterUser } from '../DTO/RegisterUserDto';
 @Injectable({
   providedIn: 'root',
@@ -41,14 +41,17 @@ export class AccountService {
   }
 
   registerUser(userInfo: RegisterUser) {
-    this.http.post<UserDto>(this.baseUrl + 'account/register', userInfo).pipe(
-      map((response) => {
-        const user = response;
-        if (user) {
-          localStorage.setItem('user', JSON.stringify(user));
-          this.setCurrentUser(user);
-        }
-      })
-    );
+    return this.http
+      .post<UserDto>(this.baseUrl + 'account/register', userInfo)
+      .pipe(
+        map((response) => {
+          const user = response;
+          if (user) {
+            localStorage.setItem('user', JSON.stringify(user));
+            this.setCurrentUser(user);
+          }
+          return user;
+        })
+      );
   }
 }
