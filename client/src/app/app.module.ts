@@ -16,26 +16,30 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { ToastrModule } from 'ngx-toastr';
 import { SharedModule } from './_modules/shared.module';
 
+const COMPONENTS = [
+  AppComponent,
+  NavComponent,
+  HomeComponent,
+  RegisterComponent,
+  MemberListComponent,
+  MemberDetailComponent,
+  ListsComponent,
+  MessagesComponent,
+  NotFoundComponent,
+];
+
+const IMPORTS = [
+  BrowserModule,
+  AppRoutingModule,
+  HttpClientModule,
+  BrowserAnimationsModule,
+  SharedModule,
+  FormsModule,
+];
+
 @NgModule({
-  declarations: [
-    AppComponent,
-    NavComponent,
-    HomeComponent,
-    RegisterComponent,
-    MemberListComponent,
-    MemberDetailComponent,
-    ListsComponent,
-    MessagesComponent,
-    NotFoundComponent,
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
-    BrowserAnimationsModule,
-    SharedModule,
-    FormsModule,
-  ],
+  declarations: [...COMPONENTS],
+  imports: [...IMPORTS],
   providers: [],
   bootstrap: [AppComponent],
 })
