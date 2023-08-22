@@ -7,7 +7,7 @@ namespace API.DTO
 {
     public class LoginUserDto
     {
-        public String UserName { get; set; }     
+        public String Username { get; set; }     
         public String Password { get; set; }     
     }
 }

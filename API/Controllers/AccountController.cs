@@ -65,7 +65,7 @@ namespace API.Controllers
 
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginUserDto loginDto){
-            var user = await this._context.Users.FirstOrDefaultAsync(x => x.UserName == loginDto.UserName);
+            var user = await this._context.Users.FirstOrDefaultAsync(x => x.UserName == loginDto.Username);
 
             if(user == null) return Unauthorized("No users found");
 

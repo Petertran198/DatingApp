@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AccountService } from '../services/AccountService';
-import { LoginUser } from '../DTO/LoginUserDto';
+import { AccountService } from '../_services/AccountService';
+import { LoginUser } from '../_dto/LoginUserDto';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 
@@ -11,8 +11,8 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class NavComponent implements OnInit {
   loginUser: LoginUser = {
-    Username: '',
-    Password: '',
+    username: '',
+    password: '',
   };
   constructor(
     public accountService: AccountService,
@@ -20,7 +20,11 @@ export class NavComponent implements OnInit {
     private toastr: ToastrService
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.accountService.currentUser$.subscribe((u) => {
+      console.log(u);
+    });
+  }
 
   login() {
     this.accountService.login(this.loginUser).subscribe({

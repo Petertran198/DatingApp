@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { UserDto } from '../DTO/UserDto';
+import { UserDto } from '../_dto/UserDto';
 
 @Component({
   selector: 'app-home',

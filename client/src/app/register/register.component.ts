@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { AccountService } from '../services/AccountService';
-import { RegisterUser } from '../DTO/RegisterUserDto';
+import { AccountService } from '../_services/AccountService';
+import { RegisterUser } from '../_dto/RegisterUserDto';
 
 @Component({
   selector: 'app-register',
@@ -9,8 +9,8 @@ import { RegisterUser } from '../DTO/RegisterUserDto';
 })
 export class RegisterComponent {
   registerFormData: RegisterUser = {
-    Username: '',
-    Password: '',
+    username: '',
+    password: '',
   };
   @Output() cancelRegister: EventEmitter<boolean> = new EventEmitter();
   errorMessage: string;

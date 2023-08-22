@@ -1,9 +1,9 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { UserDto } from '../DTO/UserDto';
-import { LoginUser } from '../DTO/LoginUserDto';
+import { UserDto } from '../_dto/UserDto';
+import { LoginUser } from '../_dto/LoginUserDto';
 import { BehaviorSubject, catchError, map, of, throwError } from 'rxjs';
-import { RegisterUser } from '../DTO/RegisterUserDto';
+import { RegisterUser } from '../_dto/RegisterUserDto';
 @Injectable({
   providedIn: 'root',
 })
