@@ -36,7 +36,7 @@ namespace API.Controllers
             //Got to use using because HMACSHA512 is part of the IDisposable interface 
             using var hmac = new HMACSHA512();
 
-            var user = new HashedUser
+            var user = new AppUser
             {
                 UserName = registerUser.Username.ToLower(),
                 PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerUser.Password)),
