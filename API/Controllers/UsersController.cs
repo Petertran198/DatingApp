@@ -23,29 +23,32 @@ public class UsersController : BaseApiController
     {
 
         IActionResult result = null;
-            try
-            {
-                var q = await _context.Users.ToListAsync();
-                result = Ok(q);
-            }
-            catch (System.Exception ex)
-            {
-                result = BadRequest(ex.Message);
-            }
-            
-            return result;
+        try
+        {
+            var q = await _context.Users.ToListAsync();
+            result = Ok(q);
+        }
+        catch (System.Exception ex)
+        {
+            result = BadRequest(ex.Message);
+        }
+
+        return result;
     }
-    
+
 
     [HttpGet("{id}")]
     public async Task<IActionResult> GetUser(int id)
     {
-        IActionResult result = null; 
-        try {
-         var q = await _context.Users.FindAsync(id);
-         result = Ok(q);
+        IActionResult result = null;
+        try
+        {
+            var q = await _context.Users.FindAsync(id);
+            result = Ok(q);
 
-        }catch(System.Exception ex){
+        }
+        catch (System.Exception ex)
+        {
 
             result = BadRequest(ex.Message);
         }
