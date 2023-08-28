@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+//For AccountController
 namespace API.DTO
 {
     //User with the JWT Token of HashedUser
